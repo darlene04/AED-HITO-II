@@ -37,6 +37,8 @@ public:
     int size() const;
     void print();
     void printNode(Node<T>* node, int depth = 0);
+
+    static FiboHeap<T> Union(FiboHeap<T>& h1, FiboHeap<T>& h2);
 };
 
 // ====================== IMPLEMENTACIÓN ======================
@@ -307,6 +309,40 @@ void FiboHeap<T>::printNode(Node<T>* node, int depth) {
         node = node->right;
     } while (node != start);
 }
+template <typename T>
+FiboHeap<T> FiboHeap<T>::Union(FiboHeap<T>& h1, FiboHeap<T>& h2) {
+    FiboHeap<T> result;
 
+    result.minNode = h1.minNode;
+
+    if (!h1.minNode) {
+        result.minNode = h2.minNode;
+    } else if (h2.minNode) {
+        // unir las listas de raíces de h1 y h2
+        Node<T>* h1Left = h1.minNode->left;
+        Node<T>* h2Left = h2.minNode->left;
+
+        h1.minNode->left = h2Left;
+        h2Left->right = h1.minNode;
+
+        h2.minNode->left = h1Left;
+        h1Left->right = h2.minNode;
+
+        // actualizar el minNode si es necesario
+        if (h2.minNode->key < h1.minNode->key) {
+            result.minNode = h2.minNode;
+        }
+    }
+
+    result.totalNodes = h1.totalNodes + h2.totalNodes;
+
+    // invalidar los heaps originales si deseas
+    h1.minNode = nullptr;
+    h2.minNode = nullptr;
+    h1.totalNodes = 0;
+    h2.totalNodes = 0;
+
+    return result;
+}
 
 #endif //PROYECTOS_FIBOHEAP_H

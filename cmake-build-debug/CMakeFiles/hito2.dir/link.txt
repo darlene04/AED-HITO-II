@@ -1,0 +1,1 @@
+/usr/bin/clang++ -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/hito2.dir/main.cpp.o CMakeFiles/hito2.dir/Node.cpp.o CMakeFiles/hito2.dir/FiboHeap.cpp.o -o hito2
